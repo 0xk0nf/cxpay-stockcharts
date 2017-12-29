@@ -70,10 +70,12 @@ class LineSeries extends Component {
 			strokeOpacity,
 			strokeWidth,
 			hoverStrokeWidth,
+			lineCap,
+			lineJoin,
 			defined,
 			strokeDasharray,
 			interpolation,
-			canvasClip,
+			canvasClip
 		} = this.props;
 
 		const { connectNulls } = this.props;
@@ -87,7 +89,8 @@ class LineSeries extends Component {
 		}
 
 		ctx.lineWidth = hovering ? hoverStrokeWidth : strokeWidth;
-
+        ctx.lineCap = lineCap;
+        ctx.lineJoin = lineJoin;
 		ctx.strokeStyle = hexToRGBA(stroke, strokeOpacity);
 		ctx.setLineDash(getStrokeDasharray(strokeDasharray).split(","));
 
@@ -142,6 +145,8 @@ class LineSeries extends Component {
 				strokeOpacity={strokeOpacity}
 				strokeWidth={hovering ? hoverStrokeWidth : strokeWidth}
 				strokeDasharray={getStrokeDasharray(strokeDasharray)}
+				strokeLinecap={lineCap}
+				strokeLinejoin={lineJoin}
 				fill={fill}
 			/>
 		);
@@ -193,6 +198,8 @@ LineSeries.propTypes = {
 	strokeOpacity: PropTypes.number,
 	stroke: PropTypes.string,
 	hoverStrokeWidth: PropTypes.number,
+    lineCap: PropTypes.string,
+    lineJoin: PropTypes.string,
 	fill: PropTypes.string,
 	defined: PropTypes.func,
 	hoverTolerance: PropTypes.number,
@@ -213,6 +220,8 @@ LineSeries.defaultProps = {
 	strokeWidth: 1,
 	strokeOpacity: 1,
 	hoverStrokeWidth: 4,
+    lineCap: "round",
+    lineJoin: "round",
 	fill: "none",
 	stroke: "#4682B4",
 	strokeDasharray: "Solid",

@@ -38,6 +38,21 @@ class MouseCoordinateY extends Component {
 	}
 }
 
+function customY(props, moreProps) {
+	const { chartConfig: { yScale }, currentItem, mouseXY } = moreProps;
+	const { snapY, yAccessor } = props;
+	const y = snapY
+		? yScale(yAccessor(currentItem))
+		: mouseXY[1];
+
+	//const { displayXAccessor } = moreProps;
+	const { displayFormat } = props;
+	const coordinate = snapY
+		? displayFormat(yAccessor(currentItem))
+		: displayFormat(yScale.invert(y));
+	return { y, coordinate };
+}
+
 MouseCoordinateY.propTypes = {
 	displayFormat: PropTypes.func.isRequired,
 	yAxisPad: PropTypes.number,
@@ -70,6 +85,8 @@ MouseCoordinateY.defaultProps = {
 	// stroke: "#684F1D",
 	strokeOpacity: 1,
 	strokeWidth: 1,
+  	snapY: false,
+	customY: customY,
 };
 
 function helper(props, moreProps) {
@@ -98,6 +115,12 @@ export function getYCoordinate(y, displayValue, props, moreProps) {
 	const { fill, opacity, fontFamily, fontSize, textFill, arrowWidth } = props;
 	const { stroke, strokeOpacity, strokeWidth } = props;
 
+	const { customY } = props;
+	const {
+		y,
+		coordinate
+	 } = customY(props, moreProps);
+  
 	const x1 = 0, x2 = width;
 	const edgeAt = (at === "right")
 		? width
