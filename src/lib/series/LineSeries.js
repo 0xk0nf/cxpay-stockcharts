@@ -114,7 +114,8 @@ class LineSeries extends Component {
 		}
 	}
 	renderSVG(moreProps) {
-		const { yAccessor, stroke, strokeOpacity, strokeWidth, hoverStrokeWidth, defined, strokeDasharray } = this.props;
+		const { yAccessor, stroke, strokeOpacity, strokeWidth, hoverStrokeWidth,
+          lineCap, lineJoin, defined, strokeDasharray } = this.props;
 		const { connectNulls } = this.props;
 		const { interpolation, style } = this.props;
 		const { xAccessor, chartConfig } = moreProps;
@@ -198,8 +199,8 @@ LineSeries.propTypes = {
 	strokeOpacity: PropTypes.number,
 	stroke: PropTypes.string,
 	hoverStrokeWidth: PropTypes.number,
-    lineCap: PropTypes.string,
-    lineJoin: PropTypes.string,
+	lineCap: PropTypes.string,
+	lineJoin: PropTypes.string,
 	fill: PropTypes.string,
 	defined: PropTypes.func,
 	hoverTolerance: PropTypes.number,
@@ -220,8 +221,8 @@ LineSeries.defaultProps = {
 	strokeWidth: 1,
 	strokeOpacity: 1,
 	hoverStrokeWidth: 4,
-    lineCap: "round",
-    lineJoin: "round",
+	lineCap: "round",
+	lineJoin: "round",
 	fill: "none",
 	stroke: "#4682B4",
 	strokeDasharray: "Solid",

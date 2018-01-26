@@ -45,7 +45,7 @@ function customY(props, moreProps) {
 		? yScale(yAccessor(currentItem))
 		: mouseXY[1];
 
-	//const { displayXAccessor } = moreProps;
+	// const { displayXAccessor } = moreProps;
 	const { displayFormat } = props;
 	const coordinate = snapY
 		? displayFormat(yAccessor(currentItem))
@@ -85,18 +85,16 @@ MouseCoordinateY.defaultProps = {
 	// stroke: "#684F1D",
 	strokeOpacity: 1,
 	strokeWidth: 1,
-  	snapY: false,
-	customY: customY,
+	snapY: false,
+	customY: customY
 };
 
 function helper(props, moreProps) {
 	const { chartId } = moreProps;
-	const { currentCharts, mouseXY } = moreProps;
+	const { show, currentCharts, mouseXY } = moreProps;
 
 	if (isNotDefined(mouseXY)) return null;
 	if (currentCharts.indexOf(chartId) < 0) return null;
-
-	const { show } = moreProps;
 	if (!show) return null;
 
 	const y = mouseXY[1];
@@ -109,18 +107,17 @@ function helper(props, moreProps) {
 }
 
 export function getYCoordinate(y, displayValue, props, moreProps) {
-	const { width } = moreProps;
-
 	const { orient, at, rectWidth, rectHeight, dx } = props;
 	const { fill, opacity, fontFamily, fontSize, textFill, arrowWidth } = props;
 	const { stroke, strokeOpacity, strokeWidth } = props;
 
 	const { customY } = props;
 	const {
+        width,
 		y,
 		coordinate
 	 } = customY(props, moreProps);
-  
+
 	const x1 = 0, x2 = width;
 	const edgeAt = (at === "right")
 		? width
