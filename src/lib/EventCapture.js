@@ -100,8 +100,12 @@ class EventCapture extends Component {
 		onMouseLeave(e);
 	}
 	handleWheel(e) {
-		const { zoom, onZoom } = this.props;
+		const { zoom, onZoom, panEnabled } = this.props;
 		const { panInProgress } = this.state;
+
+        if (!panEnabled) {
+          return;
+        }
 
 		const yZoom = Math.abs(e.deltaY) > Math.abs(e.deltaX) && Math.abs(e.deltaY) > 0;
 		// const xPan = Math.abs(e.deltaY) < Math.abs(e.deltaX) && Math.abs(e.deltaX) > 0;
