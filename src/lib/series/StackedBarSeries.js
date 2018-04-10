@@ -12,6 +12,41 @@ import { getAxisCanvas } from "../GenericComponent";
 
 import { identity, hexToRGBA, head, functor, plotDataLengthBarWidth } from "../utils";
 
+function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+  if (typeof stroke == 'undefined') {
+    stroke = true;
+  }
+  if (typeof radius === 'undefined') {
+    radius = 5;
+  }
+  if (typeof radius === 'number') {
+    radius = {tl: radius, tr: radius, br: radius, bl: radius};
+  } else {
+    var defaultRadius = {tl: 0, tr: 0, br: 0, bl: 0};
+    for (var side in defaultRadius) {
+      radius[side] = radius[side] || defaultRadius[side];
+    }
+  }
+  ctx.beginPath();
+  ctx.moveTo(x + radius.tl, y);
+  ctx.lineTo(x + width - radius.tr, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+  ctx.lineTo(x + width, y + height - radius.br);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+  ctx.lineTo(x + radius.bl, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+  ctx.lineTo(x, y + radius.tl);
+  ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+  ctx.closePath();
+
+  if (fill) {
+    ctx.fill();
+  }
+  if (stroke) {
+    ctx.stroke();
+  }
+}
+
 class StackedBarSeries extends Component {
 	constructor(props) {
 		super(props);
@@ -61,6 +96,7 @@ StackedBarSeries.propTypes = {
 		PropTypes.func, PropTypes.string
 	]).isRequired,
 	clip: PropTypes.bool.isRequired,
+    radius: PropTypes.number
 };
 
 StackedBarSeries.defaultProps = {
@@ -69,6 +105,7 @@ StackedBarSeries.defaultProps = {
 	className: "bar",
 	stroke: true,
 	fill: "#4682B4",
+    radius: 0,
 	opacity: 0.5,
 	width: plotDataLengthBarWidth,
 	widthRatio: 0.8,
@@ -215,8 +252,10 @@ export function drawOnCanvas2(props, ctx, bars) {
 				ctx.rect(d.x, d.y, d.width, d.height);
 				ctx.fill();
 				*/
-				ctx.fillRect(d.x, d.y, d.width, d.height);
-				if (stroke) ctx.strokeRect(d.x, d.y, d.width, d.height);
+
+                roundRect(ctx, d.x, d.y, d.width, d.height, props.radius, true, stroke);
+		        //ctx.fillRect(d.x, d.y, d.width, d.height);
+				//if (stroke) ctx.strokeRect(d.x, d.y, d.width, d.height);
 			}
 
 		});
