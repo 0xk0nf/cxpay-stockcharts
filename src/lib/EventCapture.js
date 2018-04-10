@@ -27,6 +27,7 @@ class EventCapture extends Component {
 		this.handlePan = this.handlePan.bind(this);
 		this.handleTouchStart = this.handleTouchStart.bind(this);
 		this.handleTouchMove = this.handleTouchMove.bind(this);
+        this.handleTouchEnd = this.handleTouchEnd.bind(this);
 		this.handlePinchZoom = this.handlePinchZoom.bind(this);
 		this.handlePinchZoomEnd = this.handlePinchZoomEnd.bind(this);
 
@@ -477,6 +478,9 @@ class EventCapture extends Component {
 			}
 		}
 	}
+	handleTouchEnd(e) {
+      this.handleLeave(e);
+    }
 	handlePinchZoom() {
 		const e = d3Event;
 		const [touch1Pos, touch2Pos] = touches(this.node);
@@ -536,6 +540,7 @@ class EventCapture extends Component {
 			onContextMenu: this.handleRightClick,
 			onTouchStart: this.handleTouchStart,
 			onTouchMove: this.handleTouchMove,
+            onTouchEnd: this.handleTouchEnd,
 		};
 
 		return (
