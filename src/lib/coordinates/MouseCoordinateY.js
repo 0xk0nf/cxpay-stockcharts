@@ -91,32 +91,25 @@ MouseCoordinateY.defaultProps = {
 
 function helper(props, moreProps) {
 	const { chartId } = moreProps;
-	const { show, currentCharts, mouseXY } = moreProps;
+	const { currentCharts, mouseXY } = moreProps;
 
 	if (isNotDefined(mouseXY)) return null;
 	if (currentCharts.indexOf(chartId) < 0) return null;
+
+	const { show } = moreProps;
 	if (!show) return null;
 
-	const y = mouseXY[1];
-	const { chartConfig: { yScale } } = moreProps;
-	const { displayFormat } = props;
-
-	const coordinate = displayFormat(yScale.invert(y));
-
+	const { customY } = props;
+	const { y, coordinate } = customY(props, moreProps);
 	return getYCoordinate(y, coordinate, props, moreProps);
 }
 
 export function getYCoordinate(y, displayValue, props, moreProps) {
+	const { width } = moreProps;
+
 	const { orient, at, rectWidth, rectHeight, dx } = props;
 	const { fill, opacity, fontFamily, fontSize, textFill, arrowWidth } = props;
 	const { stroke, strokeOpacity, strokeWidth } = props;
-
-	const { customY } = props;
-	const {
-        width,
-		y,
-		coordinate
-	 } = customY(props, moreProps);
 
 	const x1 = 0, x2 = width;
 	const edgeAt = (at === "right")
